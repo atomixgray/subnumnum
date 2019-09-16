@@ -24,11 +24,6 @@ sudo cat /tmp/$varname+curl.out | grep $varname | grep TD | sed -e 's/<//g' | se
 echo Searching certspotter.com for Subdomains
 sudo curl -s https://certspotter.com/api/v0/certs\?domain\=$varname | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep $varname >> $varname-crt.txt
 
-#cat $varname-crt.txt | sort -u | httprobe -c 50 -t 3000 >>  starthere.txt
-
-#Lets get httprobe working because ping is not happy
-#sudo cat $varname-crt.txt | httprobe
-
 echo checking to see if subdomain is alive
 
 cat $varname-crt.txt | sort -u |  while read output
@@ -46,6 +41,6 @@ sudo cat $varname-alive.txt | sort -u > $varname-targets.txt
 
 echo  Cleaning up files.... 
 sudo rm /tmp/$varname+curl.out
-#sudo rm  $varname-crt.txt 
+sudo rm  $varname-crt.txt 
 sudo rm $varname-alive.txt
 sudo rm $varname-dead.txt
