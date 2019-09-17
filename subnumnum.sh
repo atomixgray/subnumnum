@@ -32,7 +32,7 @@ do
     if [ $? -eq 0 ]; then > /dev/null
     echo "$output"  >>  $varname-alive.txt 
     else
-    echo "$output" >> $varname-dead.txt
+    echo "$output" >> /dev/null
     fi
 done
 
