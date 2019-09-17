@@ -24,7 +24,7 @@ sudo cat /tmp/$varname+curl.out | grep $varname | grep TD | sed -e 's/<//g' | se
 echo Searching certspotter.com for Subdomains
 sudo curl -s https://certspotter.com/api/v0/certs\?domain\=$varname | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep $varname >> $varname-crt.txt
 
-echo checking to see if subdomain is alive
+echo checking to see if subdomains are online
 
 cat $varname-crt.txt | /root/go/bin/httprobe  | sort -u > $varname-alive.txt
 
