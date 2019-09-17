@@ -26,6 +26,7 @@ sudo curl -s https://certspotter.com/api/v0/certs\?domain\=$varname | jq '.[].dn
 
 echo checking to see if subdomains are online
 
+# Might need to change Go path below 
 cat $varname-crt.txt | /root/go/bin/httprobe  | sort -u > $varname-alive.txt
 
 echo  Cleaning up files.... 
