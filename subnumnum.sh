@@ -11,7 +11,7 @@ echo "                                                                   ";
 echo "                                                                   ";
 
 
-# Ask for URL
+# Ask for URL please
 echo Please enter your URL
 read varname
 echo Running Sub Num Num on $varname
@@ -26,21 +26,8 @@ sudo curl -s https://certspotter.com/api/v0/certs\?domain\=$varname | jq '.[].dn
 
 echo checking to see if subdomain is alive
 
-cat $varname-crt.txt | sort -u |  while read output
-do
-    ping -c 1 "$output" >> /dev/null
-    if [ $? -eq 0 ]; then > /dev/null
-    echo "$output"  >>  $varname-alive.txt 
-    else
-    echo "$output" >> /dev/null
-    fi
-done
-
-sudo cat $varname-alive.txt | sort -u > $varname-targets.txt
-
+cat $varname-crt.txt | /root/go/bin/httprobe  | sort -u > $varname-alive.txt
 
 echo  Cleaning up files.... 
 sudo rm /tmp/$varname+curl.out
 sudo rm  $varname-crt.txt 
-sudo rm $varname-alive.txt
-sudo rm $varname-dead.txt
