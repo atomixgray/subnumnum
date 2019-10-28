@@ -9,10 +9,11 @@ echo "/\__/ / |_| | |_) | | |\  | |_| | | | | | | | |\  | |_| | | | | | |";
 echo "\____/ \__,_|_.__/  \_| \_/\__,_|_| |_| |_| \_| \_/\__,_|_| |_| |_|";
 echo "                                                                   ";
 echo "                                                                   ";
+
 # Ask for URL please
 echo Please enter your URL
 read varname
-#echo Running Supbdomain Recon on $varname Please Wait . . . .
+echo Running Recon on $varname Please Wait . . This will take sometime.
  
 #echo Searching crt.sh for Subdomains
 sudo curl -s https://crt.sh/?q=%25.$varname > /tmp/$varname+curl.out
@@ -31,14 +32,12 @@ sudo curl -s https://web.archive.org/cdx/search/cdx?url=*.$varname > /tmp/$varna
 sudo grep -Eo '(http|https)://[^/"]+' /tmp/$varname+wayback.out | sort -u | grep $varname >> $varname-crt.txt
 
 
-echo Checking to see if SubDomains are Online
+#echo Checking to see if SubDomains are Online
 
-cat $varname-crt.txt | sort -u | /root/go/bin/httprobe -c 50 -t 3000 > $varname-alive.txt
+sudo cat $varname-crt.txt | sort -u | /root/go/bin/httprobe -c 50 -t 3000 > $varname-alive.txt
 
-echo
-#Starting Brute Force on  $varname-alive.txt
-sudo  /root/tools/dirsearch/dirsearch.py -L $varname-alive.txt -e html,json -x 400,500,503,301,302
-
+echo Starting Brute Force on  $varname-alive.txt
+sudo  /root/tools/dirsearch/dirsearch.py -L $varname-alive.txt -e html,json -x 400,500,503,301,302 -b
 
 echo  .....Cleaning up files.... 
 sleep 2
@@ -46,3 +45,4 @@ echo  Please open file $varname-alive.txt to review results.
 sudo rm /tmp/$varname+curl.out
 sudo rm  $varname-crt.txt 
 sudo rm /tmp/$varname+urlscan.out
+sudo rm /tmp/$varname+wayback.out
