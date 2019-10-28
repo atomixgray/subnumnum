@@ -37,7 +37,7 @@ cat $varname-crt.txt | sort -u | /root/go/bin/httprobe -c 50 -t 3000 > $varname-
 
 echo
 #Starting Brute Force on  $varname-alive.txt
-#sudo  /root/tools/dirsearch/dirsearch.py -L $varname-alive.txt -e html,json -x 400,500,503,301,302
+sudo  /root/tools/dirsearch/dirsearch.py -L $varname-alive.txt -e html,json -x 400,500,503,301,302
 
 
 echo  .....Cleaning up files.... 
