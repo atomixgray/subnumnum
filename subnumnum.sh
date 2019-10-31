@@ -31,13 +31,15 @@ sudo grep -Eo '(http|https)://[^/"]+' /tmp/$varname+urlscan.out | sort -u | grep
 sudo curl -s https://web.archive.org/cdx/search/cdx?url=*.$varname > /tmp/$varname+wayback.out
 sudo grep -Eo '(http|https)://[^/"]+' /tmp/$varname+wayback.out | sort -u | grep $varname >> $varname-crt.txt
 
+#echo Searching ThreatCrowd Coming Soon
+#sudo curl -s https://threatcrowd.org/searchApi/v2/domain/report/?domain=$varname > $varname+tc.out
 
 #echo Checking to see if SubDomains are Online
 
 sudo cat $varname-crt.txt | sort -u | /root/go/bin/httprobe -c 50 -t 3000 > $varname-alive.txt
 
 echo Starting Brute Force on  $varname-alive.txt
-sudo  /root/tools/dirsearch/dirsearch.py -L $varname-alive.txt -e html,json -x 400,500,503,301,302 -b
+sudo  /root/tools/dirsearch/dirsearch.py -L $varname-alive.txt -e html,json,php,aspx,zip,jar -x 400,500,503,301,302,413 -b
 
 echo  .....Cleaning up files.... 
 sleep 2
@@ -46,3 +48,4 @@ sudo rm /tmp/$varname+curl.out
 sudo rm  $varname-crt.txt 
 sudo rm /tmp/$varname+urlscan.out
 sudo rm /tmp/$varname+wayback.out
+ 
