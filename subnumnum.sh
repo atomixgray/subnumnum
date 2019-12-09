@@ -11,7 +11,7 @@ echo "                                                                   ";
 echo "                                                                   ";
 
 # Ask for URL please
-echo Please enter your URL
+echo Please enter a Domain
 read varname
 echo Running Recon on $varname Please Wait . . This will take sometime.
  
